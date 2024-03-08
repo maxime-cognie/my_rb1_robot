@@ -25,11 +25,11 @@
         </visual>
     </link>
 
-    <!-- Joint - base link / base footprint -->
-    <joint name="joint_base_link_base_footprint" type="fixed">
+    <!-- Joint - base footprint / base link -->
+    <joint name="joint_base_footprint_base_link" type="fixed">
         <origin xyz="0 0 -0.15" rpy="0 0 0"/>
-        <child link="base_footprint"/>
-        <parent link="base_link"/>
+        <child link="base_link"/>
+        <parent link="base_footprint"/>
     </joint> 
 
     <!-- Link - base footprint -->
@@ -109,7 +109,7 @@
         <origin xyz="0.1 0 -0.15" rpy="0 0 0"/>
         <child link="front_caster"/>
         <parent link="base_link"/>
-        <joint_properties damping="1.0" friction="0"/>
+        <joint_properties damping="0" friction="0"/>
     </joint>
 
     <!-- Link - front caster -->
@@ -156,7 +156,7 @@
         <origin xyz="-0.1 0 -0.15" rpy="0 0 0"/>
         <child link="back_caster"/>
         <parent link="base_link"/>
-        <joint_properties damping="1.0" friction="0"/>
+        <joint_properties damping="0" friction="0"/>
     </joint>
 
     <!-- Link - back caster -->
@@ -208,6 +208,7 @@
     <!-- Link - front laser -->
     <link name="front_laser"/> 
 
+    <!-- colors for the gazebo model -->
     <gazebo reference="base_link">
         <material>Gazebo/Black</material>
     </gazebo>
@@ -228,6 +229,7 @@
         <mu2>0.1</mu2>
     </gazebo>
 
+    <!-- force the base link and the caster wheel links to be separated -->
     <gazebo reference="joint_base_link_front_caster">
         <preserveFixedJoint>true</preserveFixedJoint>
     </gazebo>
@@ -236,8 +238,52 @@
     </gazebo>
 
 
+    <gazebo>
+        <plugin filename="libgazebo_ros_diff_drive.so" name="differential_drive_controller">
+            <alwaysOn>true</alwaysOn>
+            <updateRate>20</updateRate>
+            <leftJoint>joint_base_link_right_wheel</leftJoint>
+            <rightJoint>joint_base_link_left_wheel</rightJoint>
+            <wheelSeparation>0.4</wheelSeparation>
+            <wheelDiameter>0.05</wheelDiameter>
+            <torque>10</torque>
+            <commandTopic>cmd_vel</commandTopic>
+            <odometryTopic>odom</odometryTopic>
+            <odometryFrame>odom</odometryFrame>
+            <robotBaseFrame>base_footprint</robotBaseFrame>
+        </plugin>
+    </gazebo>
+
+    <gazebo reference="front_laser">
+        <sensor type="ray" name="head_hokuyo_sensor">
+            <pose>0 0 0 0 0 0</pose>
+            <visualize>true</visualize>
+            <update_rate>20</update_rate>
+            <ray>
+                <scan>
+                    <horizontal>
+                        <samples>720</samples>
+                        <resolution>1</resolution>
+                        <min_angle>-1.570796</min_angle>
+                        <max_angle>1.570796</max_angle>
+                    </horizontal>
+                </scan>
+                <range>
+                    <min>0.02</min>
+                    <max>10.0</max>
+                    <resolution>0.01</resolution>
+                </range>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.01</stddev>
+                </noise>
+            </ray>
+            <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+                <topicName>/laser/scan</topicName>
+                <frameName>front_laser</frameName>
+            </plugin>
+        </sensor>
+    </gazebo>
+
 </robot>
-
-
-
-
