@@ -55,13 +55,13 @@
         <collision>
             <origin xyz="0 0 0" rpy="1.5707 0 0"/>
             <geometry>
-                <cylinder length="0.02" radius="0.03"/>
+                <cylinder length="0.02" radius="0.0275"/>
             </geometry>
         </collision>
         <visual>
             <origin xyz="0 0 0" rpy="1.5707 0 0"/>
             <geometry>
-                <cylinder length="0.02" radius="0.03"/>
+                <cylinder length="0.02" radius="0.0275"/>
             </geometry>
             <material name="Red">
                 <color rgba="1.0 0 0 1"/>
@@ -89,13 +89,13 @@
         <collision>
             <origin xyz="0 0 0" rpy="1.5707 0 0"/>
             <geometry>
-                <cylinder length="0.02" radius="0.03"/>
+                <cylinder length="0.02" radius="0.0275"/>
             </geometry>
         </collision>
         <visual>
             <origin xyz="0 0 0" rpy="1.5707 0 0"/>
             <geometry>
-                <cylinder length="0.02" radius="0.03"/>
+                <cylinder length="0.02" radius="0.0275"/>
             </geometry>
             <material name="Red">
                 <color rgba="1.0 0 0 1"/>
@@ -245,12 +245,12 @@
             <leftJoint>joint_base_link_right_wheel</leftJoint>
             <rightJoint>joint_base_link_left_wheel</rightJoint>
             <wheelSeparation>0.4</wheelSeparation>
-            <wheelDiameter>0.06</wheelDiameter>
+            <wheelDiameter>0.055</wheelDiameter>
             <torque>10</torque>
             <commandTopic>cmd_vel</commandTopic>
             <odometryTopic>odom</odometryTopic>
             <odometryFrame>odom</odometryFrame>
-            <robotBaseFrame>base_link</robotBaseFrame>
+            <robotBaseFrame>base_footprint</robotBaseFrame>
         </plugin>
     </gazebo>
 
@@ -280,7 +280,7 @@
                 </noise>
             </ray>
             <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
-                <topicName>/laser/scan</topicName>
+                <topicName>/scan</topicName>
                 <frameName>front_laser</frameName>
             </plugin>
         </sensor>
