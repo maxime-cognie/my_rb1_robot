@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(my_rb1_gazebo)
 
+set(gazebo_DIR "/usr/lib/x86_64-linux-gnu/cmake/gazebo/")
+
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
 
@@ -8,7 +10,7 @@ project(my_rb1_gazebo)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  gazebo
+#   gazebo
   gazebo_plugins
   gazebo_ros
   roscpp
@@ -108,7 +110,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES my_rb1_gazebo
-#  CATKIN_DEPENDS gazebo gazebo_plugins gazebo_ros roscpp rospy urdf
+ CATKIN_DEPENDS gazebo_plugins gazebo_ros roscpp rospy urdf #gazebo
 #  DEPENDS system_lib
 )
 
@@ -151,6 +153,7 @@ include_directories(
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
+#   ${GAZEBO_LIBRARIES}
 # )
 
 #############
